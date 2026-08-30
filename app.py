@@ -125,8 +125,8 @@ if menu == "Sarkar Ka Dashboard" and not df.empty:
         </style>
     """, unsafe_allow_html=True)
     
-    st.markdown('<p class="main-header">🏛️ Directorate of Skills & Innovation, Maharashtra</p>', unsafe_allow_html=True)
-    st.markdown('<p class="sub-header">Longitudinal Skilling Outcomes & Impact Measurement Dashboard (PS:26135)</p>', unsafe_allow_html=True)
+    #st.markdown('<p class="main-header">🏛️ Directorate of Skills & Innovation, Maharashtra</p>', unsafe_allow_html=True)
+    #st.markdown('<p class="sub-header">Longitudinal Skilling Outcomes & Impact Measurement Dashboard (PS:26135)</p>', unsafe_allow_html=True)
     # 1. Custom Government Layout CSS & Maharashtra Heritage Hero Banner
     st.markdown("""
         <style>
