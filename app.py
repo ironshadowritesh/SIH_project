@@ -192,7 +192,15 @@ if menu == "Sarkar Ka Dashboard" and not df.empty:
     col1, col2, col3, col4 = st.columns(4)
     
     # Calculation Logic
-    total_tracked = len(filtered_df)
+    # केवल उन्हीं रोज़ को गिनो जहाँ 'Student Ka Naam' सच में लिखा हुआ है और वो खाली नहीं है
+    if 'Student Ka Naam' in filtered_df.columns:
+        #dropna() और खाली स्ट्रिंग्स को हटाकर असली काउंट निकालना
+        real_students = filtered_df[filtered_df['Student Ka Naam'].astype(str).str.strip() != '']
+        real_students = real_students[real_students['Student Ka Naam'].astype(str).str.lower() != 'none']
+        real_students = real_students[real_students['Student Ka Naam'].notna()]
+        total_tracked = len(real_students)
+    else:
+        total_tracked = 0
     
     if 'Job_Status' in filtered_df.columns:
         total_employed = len(filtered_df[filtered_df['Job_Status'].str.strip() == 'Yes'])
