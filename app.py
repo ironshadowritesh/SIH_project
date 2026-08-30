@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import random
+import requests
+
+FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScOT6T4Ts88zxE-55FK1knxgAftFZPukeCH609QWeb5JO05Vw/formResponse"
 
 # 1. Website Setup
 st.set_page_config(page_title="Maharashtra Skilling Tracker", layout="wide")
@@ -101,6 +104,42 @@ if menu == "Student Registration" :
 
             if st.form_submit_button("✅ Verify & Save"):
                 if entered_otp == st.session_state.generated_otp:
+                     payload = {
+        "entry.1495998355": name,
+        "entry.1362799692": course,
+        "entry.219678254": job,
+        "entry.1369349116": str(salary),
+        "entry.615190940": gap,
+        "entry.1855327191": district,
+        "entry.929075252": gender,
+        "entry.1987314309": verified,
+        "entry.1436949237": mobile,
+        "entry.2113029804": "i agree",
+        "entry.461716955": aadhaar,
+        "entry.1543936093": no_job_reason,
+    }
+
+    response = requests.post(
+        FORM_URL,
+        data=payload,
+        timeout=15
+    )
+
+    data_dict = {
+        'Student Ka Naam': [name],
+        'Kaun sa course kiya?': [course],
+        'Job_Status': [job],
+        'Salary': [str(salary)],
+        'Skill_Gap': [gap],
+        'District': [district],
+        'Gender': [gender],
+        'Employer_Verified': [verified],
+        'Mobile_Number': [str(mobile)],
+        'User_Consent': ['Yes'],
+        'Aadhaar_Number': [str(aadhaar)],
+        'No_Placement_Reason': [no_job_reason]
+    }
+
                     data_dict = {
                         'Student Ka Naam': [name],
                         'Kaun sa course kiya?': [course],
