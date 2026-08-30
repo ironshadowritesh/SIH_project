@@ -162,8 +162,8 @@ if menu == "Student Registration" :
     st.session_state.otp_sent = False
     st.session_state.generated_otp = None
     st.rerun()
-   else:
-                    st.error("❌ Galat OTP!")
+else:
+     st.error("❌ Galat OTP!")
 # --- PAGE 2: ADVANCED SARKAR DASHBOARD (HIGH-FI UI UPGRADE) ---
 if menu == "Sarkar Ka Dashboard" and not df.empty:
     # 1. Custom Government Layout CSS
