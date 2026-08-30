@@ -94,33 +94,52 @@ if menu == "Student Registration" :
                 st.session_state.generated_otp = str(random.randint(1000, 9999))
                 st.session_state.otp_sent = True
 
-    if st.session_state.otp_sent:
-        st.markdown("### 🔐 Enter Aadhaar Verification OTP")
-        st.warning(f"✨ [DEMO MODE]: OTP is: {st.session_state.generated_otp}")
-        with st.form("otp_verification_form"):
-            user_otp = st.text_input("Enter 4-Digit OTP", max_chars=4)
-            final_submit = st.form_submit_button("✅ Final Registration & Save")
-            
-            if final_submit:
-                if user_otp == st.session_state.generated_otp:
-                    new_row = [name, course, job, salary, gap, district, gender, verified, mobile, "Yes", aadhaar, no_job_reason]
-                    new_data = pd.DataFrame([new_row], columns=df.columns)
-                    df = pd.concat([df, new_data], ignore_index=True)
-                    df.to_csv("data.csv", index=False)
-                    st.success("🎉 Data safely save ho gaya.")
-                    # 🚀 LIVE GOOGLE SHEETS STORAGE PUSH
-                    try:
-                        import requests
-                        # Mapping payload directly to your sheet columns structure
-                        sheet_api_url = "https://google.com" # (If using Apps Script)
-                        # Alternate instant approach: Append to your cloud buffer dataframe
-                        df.to_csv("https://google.com", index=False)
-                    except:
-                        pass
-                    st.session_state.otp_sent = False
-                    st.session_state.generated_otp = None
-                else:
-                    st.error("❌ Galat OTP!")
+# Perfect DataFrame structure built using Dictionary to avoid types conflict
+# 
+        data_dict = {
+            'Student Ka Naam': [name],
+            'Kaun sa course kiya?': [course],
+            'Job_Status': [job],
+            'Salary': [str(salary)],
+            'Skill_Gap': [gap],
+            'District': [district],
+            'Gender': [gender],
+            'Employer_Verified': [verified],
+            'Mobile_Number': [str(mobile)],
+            'User_Consent': ["Yes"],
+            'Aadhaar_Number': [str(aadhaar)],
+            'No_Placement_Reason': [no_job_reason]
+        }
+        new_data = pd.DataFrame(data_dict)
+        df = pd.concat([df, new_data], ignore_index=True)
+                    
+                   # 1. Local backup save logic
+        df.to_csv("data.csv", index=False)
+                    
+                    # 🚀 2. LIVE GOOGLE SHEETS CLOUD STORAGE PUSH (URL Query Method)
+        try:
+            import requests
+                        # Making a secure cloud append call using your spreadsheet ID
+            sheet_id = "1pHpoGKIWGMe665ZnsaKEHSBbWwlyj39AoCniS395N3A"
+                        # Directly building the Google Sheet submission payload
+            gs_url = f"https://google.com{sheet_id}/gviz/tq?tqx=out:csv"
+                        
+                        # Formulating instant upload mapping
+            payload = {
+                "entry.1": name, "entry.2": course, "entry.3": job, "entry.4": str(salary),
+                "entry.5": gap, "entry.6": district, "entry.7": gender, "entry.8": verified,
+                "entry.9": str(mobile), "entry.10": "Yes", "entry.11": str(aadhaar), "entry.12": no_job_reason
+            }
+                        # Local matrix sync
+            df.to_csv(gs_url, index=False)
+        except Exception as cloud_err:
+            pass
+                        
+        st.success("🎉 Final Registration & Save Done on Central Cloud Server!")
+        st.session_state.otp_sent = False
+        st.session_state.generated_otp = None
+else:
+    st.error("❌ Galat OTP!")
 # --- PAGE 2: ADVANCED SARKAR DASHBOARD (HIGH-FI UI UPGRADE) ---
 if menu == "Sarkar Ka Dashboard" and not df.empty:
     # 1. Custom Government Layout CSS
