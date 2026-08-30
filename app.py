@@ -99,7 +99,7 @@ if menu == "Student Registration" :
             st.info(f"🔑 Demo OTP: {st.session_state.generated_otp}")
             entered_otp = st.text_input("Enter 4-digit OTP", max_chars=4)
 
-            if st.button("✅ Verify & Save"):
+            if st.form_submit_button("✅ Verify & Save"):
                 if entered_otp == st.session_state.generated_otp:
                     data_dict = {
                         'Student Ka Naam': [name],
