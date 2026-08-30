@@ -22,7 +22,7 @@ try:
         df = pd.DataFrame(columns=mandatory_columns)
         df.to_csv("data.csv", index=False)
     else:
-        df = pd.read_csv("https://google.com")
+        df = pd.read_csv("data.csv")
         # Ensure completely empty files get structures
         if df.empty or len(df.columns) == 0:
             df = pd.DataFrame(columns=mandatory_columns)
@@ -94,52 +94,37 @@ if menu == "Student Registration" :
                 st.session_state.generated_otp = str(random.randint(1000, 9999))
                 st.session_state.otp_sent = True
 
-# Perfect DataFrame structure built using Dictionary to avoid types conflict
-# 
-        data_dict = {
-            'Student Ka Naam': [name],
-            'Kaun sa course kiya?': [course],
-            'Job_Status': [job],
-            'Salary': [str(salary)],
-            'Skill_Gap': [gap],
-            'District': [district],
-            'Gender': [gender],
-            'Employer_Verified': [verified],
-            'Mobile_Number': [str(mobile)],
-            'User_Consent': ["Yes"],
-            'Aadhaar_Number': [str(aadhaar)],
-            'No_Placement_Reason': [no_job_reason]
-        }
-        new_data = pd.DataFrame(data_dict)
-        df = pd.concat([df, new_data], ignore_index=True)
-                    
-                   # 1. Local backup save logic
-        df.to_csv("data.csv", index=False)
-                    
-                    # 🚀 2. LIVE GOOGLE SHEETS CLOUD STORAGE PUSH (URL Query Method)
-        try:
-            import requests
-                        # Making a secure cloud append call using your spreadsheet ID
-            sheet_id = "1pHpoGKIWGMe665ZnsaKEHSBbWwlyj39AoCniS395N3A"
-                        # Directly building the Google Sheet submission payload
-            gs_url = f"https://google.com{sheet_id}/gviz/tq?tqx=out:csv"
-                        
-                        # Formulating instant upload mapping
-            payload = {
-                "entry.1": name, "entry.2": course, "entry.3": job, "entry.4": str(salary),
-                "entry.5": gap, "entry.6": district, "entry.7": gender, "entry.8": verified,
-                "entry.9": str(mobile), "entry.10": "Yes", "entry.11": str(aadhaar), "entry.12": no_job_reason
-            }
-                        # Local matrix sync
-            df.to_csv(gs_url, index=False)
-        except Exception as cloud_err:
-            pass
-                        
-        st.success("🎉 Final Registration & Save Done on Central Cloud Server!")
-        st.session_state.otp_sent = False
-        st.session_state.generated_otp = None
-else:
-    st.error("❌ Galat OTP!")
+        # Store the form data only after OTP verification.
+        if st.session_state.otp_sent:
+            st.info(f"🔑 Demo OTP: {st.session_state.generated_otp}")
+            entered_otp = st.text_input("Enter 4-digit OTP", max_chars=4)
+
+            if st.button("✅ Verify & Save"):
+                if entered_otp == st.session_state.generated_otp:
+                    data_dict = {
+                        'Student Ka Naam': [name],
+                        'Kaun sa course kiya?': [course],
+                        'Job_Status': [job],
+                        'Salary': [str(salary)],
+                        'Skill_Gap': [gap],
+                        'District': [district],
+                        'Gender': [gender],
+                        'Employer_Verified': [verified],
+                        'Mobile_Number': [str(mobile)],
+                        'User_Consent': ['Yes'],
+                        'Aadhaar_Number': [str(aadhaar)],
+                        'No_Placement_Reason': [no_job_reason]
+                    }
+                    new_data = pd.DataFrame(data_dict)
+                    df = pd.concat([df, new_data], ignore_index=True)
+                    df.to_csv("data.csv", index=False)
+
+                    st.success("🎉 Registration successful! Data saved in data.csv.")
+                    st.session_state.otp_sent = False
+                    st.session_state.generated_otp = None
+                    st.rerun()
+                else:
+                    st.error("❌ Galat OTP!")
 # --- PAGE 2: ADVANCED SARKAR DASHBOARD (HIGH-FI UI UPGRADE) ---
 if menu == "Sarkar Ka Dashboard" and not df.empty:
     # 1. Custom Government Layout CSS
@@ -165,7 +150,7 @@ if menu == "Sarkar Ka Dashboard" and not df.empty:
         /* Premium Scenery Hero Banner Styling */
         .mh-hero {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
-                        url('https://unsplash.com');
+                        linear-gradient(135deg, #800000, #B8860B);
             background-size: cover;
             background-position: center;
             height: 180px;
@@ -188,7 +173,7 @@ if menu == "Sarkar Ka Dashboard" and not df.empty:
         .kpi-box { background-color: #FFFFFF; padding: 22px; border-radius: 10px; border-top: 4px solid #800000; box-shadow: 0px 4px 12px rgba(0,0,0,0.05); border-left: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB; }
         .kpi-title { font-size: 13px; color: #4B5563; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
         .kpi-value { font-size: 30px; font-weight: 800; color: #800000; }
-        Q</style>
+        </style>
     """, unsafe_allow_html=True)
     
     # 🌟 Beautiful Scenery Hero Block (Replaces the raw plain text headers)
