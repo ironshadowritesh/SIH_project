@@ -140,7 +140,7 @@ if menu == "Student Registration" :
         'No_Placement_Reason': [no_job_reason]
     }
 
-                    data_dict = {
+    data_dict = {
                         'Student Ka Naam': [name],
                         'Kaun sa course kiya?': [course],
                         'Job_Status': [job],
@@ -154,15 +154,15 @@ if menu == "Student Registration" :
                         'Aadhaar_Number': [str(aadhaar)],
                         'No_Placement_Reason': [no_job_reason]
                     }
-                    new_data = pd.DataFrame(data_dict)
-                    df = pd.concat([df, new_data], ignore_index=True)
-                    df.to_csv("data.csv", index=False)
+    new_data = pd.DataFrame(data_dict)
+    df = pd.concat([df, new_data], ignore_index=True)
+    df.to_csv("data.csv", index=False)
 
-                    st.success("🎉 Registration successful! Data saved in data.csv.")
-                    st.session_state.otp_sent = False
-                    st.session_state.generated_otp = None
-                    st.rerun()
-                else:
+    st.success("🎉 Registration successful! Data saved in data.csv.")
+    st.session_state.otp_sent = False
+    st.session_state.generated_otp = None
+    st.rerun()
+   else:
                     st.error("❌ Galat OTP!")
 # --- PAGE 2: ADVANCED SARKAR DASHBOARD (HIGH-FI UI UPGRADE) ---
 if menu == "Sarkar Ka Dashboard" and not df.empty:
