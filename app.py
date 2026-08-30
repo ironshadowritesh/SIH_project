@@ -127,6 +127,49 @@ if menu == "Sarkar Ka Dashboard" and not df.empty:
     
     st.markdown('<p class="main-header">🏛️ Directorate of Skills & Innovation, Maharashtra</p>', unsafe_allow_html=True)
     st.markdown('<p class="sub-header">Longitudinal Skilling Outcomes & Impact Measurement Dashboard (PS:26135)</p>', unsafe_allow_html=True)
+    # 1. Custom Government Layout CSS & Maharashtra Heritage Hero Banner
+    st.markdown("""
+        <style>
+        /* Maharashtra Govt Inspired Color Theme */
+        .main-header { font-size:34px !important; font-weight: 800; color: #800000; margin-bottom: 2px; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .sub-header { font-size:16px !important; color: #B8860B; font-weight: 600; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Premium Scenery Hero Banner Styling */
+        .mh-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                        url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            height: 180px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
+            border-bottom: 5px solid #FF8C00; /* Traditional Gold Accent Line */
+        }
+        .mh-hero h1 { color: #FFFFFF !important; font-size: 30px !important; font-weight: 800 !important; margin: 0; text-shadow: 2px 2px 4px rgba(0,0,0,0.6); }
+        .mh-hero p { color: #FFD700 !important; font-size: 16px !important; font-weight: 500 !important; margin-top: 5px; text-shadow: 1px 1px 3px rgba(0,0,0,0.6); }
+
+        /* KPI Boxes Redesigned to match state portal elegance */
+        .kpi-box { background-color: #FFFFFF; padding: 22px; border-radius: 10px; border-top: 4px solid #800000; box-shadow: 0px 4px 12px rgba(0,0,0,0.05); border-left: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB; border-bottom: 1px solid #E5E7EB; }
+        .kpi-title { font-size: 13px; color: #4B5563; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .kpi-value { font-size: 30px; font-weight: 800; color: #800000; }
+        Q</style>
+    """, unsafe_allow_html=True)
+    
+    # 🌟 Beautiful Scenery Hero Block (Replaces the raw plain text headers)
+    st.markdown("""
+        <div class="mh-hero">
+            <h1>🏛️ Directorate of Skills, Employment & Innovation</h1>
+            <p>GOVERNMENT OF MAHARASHTRA • PILOT IMPACT TRACKER (PS: 26135)</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     # 2. Advanced Filtering Options
     st.sidebar.markdown("---")
